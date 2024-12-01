@@ -1,26 +1,25 @@
 <Project>
 
   <PropertyGroup>
-	<LangVersion>latest</LangVersion>
-	<TargetFramework>net9.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>net9.0</TargetFramework>
 
-	<Nullable>enable</Nullable>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 
-	<AnalysisLevel>latest-all</AnalysisLevel>
-	<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-
-	<TieredPGO>true</TieredPGO>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <NoWarn>CA1707,CA1305,CS8500</NoWarn>
+    
+    <UseArtifactsOutput>true</UseArtifactsOutput>
   </PropertyGroup>
 
   <ItemGroup>
-	<Using Include="AdventOfCode.Common.Attributes"/>
-	<Using Include="AdventOfCode.Common.Interfaces"/>
-	<Using Include="AdventOfCode.Common.Models"/>
-	<Using Include="SuperLinq"/>
-	<Using Include="System.Text.RegularExpressions"/>
+    <Using Include="AdventOfCode.Common.Attributes"/>
+    <Using Include="AdventOfCode.Common.Interfaces"/>
+    <Using Include="AdventOfCode.Common.Models"/>
+    <Using Include="SuperLinq"/>
+    <Using Include="System.Text.RegularExpressions"/>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,10 @@
+﻿<Solution>
+  <Folder Name="build">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="AdventOfCode.Common\AdventOfCode.Common.csproj" />
+  <Project Path="AdventOfCode.Puzzles\2024\AdventOfCode.Puzzles.2024.csproj" Type="Classic C#" />
+  <Project Path="AdventOfCode.Runner\AdventOfCode.Runner.csproj" />
+</Solution>
