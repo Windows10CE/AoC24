@@ -10,8 +10,6 @@
 
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <NoWarn>CA1707,CA1305,CS8500</NoWarn>
-    
-    <UseArtifactsOutput>true</UseArtifactsOutput>
   </PropertyGroup>
 
   <ItemGroup>
