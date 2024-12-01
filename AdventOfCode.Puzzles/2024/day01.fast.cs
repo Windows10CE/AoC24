@@ -1,5 +1,5 @@
-using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace AdventOfCode.Puzzles._2024;
 
@@ -15,8 +15,6 @@ public sealed class Day01Fast : IPuzzle
         uint[] leftArr = GC.AllocateUninitializedArray<uint>((int)len), rightArr = GC.AllocateUninitializedArray<uint>((int)len);
         ref var leftRef = ref leftArr[0];
         ref var rightRef = ref rightArr[0];
-
-        var invariantInfo = NumberFormatInfo.InvariantInfo;
         
         nuint index = 0;
         foreach (var lineRange in input.Span.Split((byte)'\n'))
@@ -24,8 +22,8 @@ public sealed class Day01Fast : IPuzzle
             var line = span[lineRange];
             if (line.IsEmpty) break;
             var endFirst = line.IndexOf((byte)' ');
-            _ = uint.TryParse(line[..endFirst], NumberStyles.None, invariantInfo, out Unsafe.Add(ref leftRef, index));
-            _ = uint.TryParse(line[(endFirst + 3)..], NumberStyles.None, invariantInfo, out Unsafe.Add(ref rightRef, index++));
+            Unsafe.Add(ref leftRef, index) = ParseInt(line[..endFirst]);
+            Unsafe.Add(ref rightRef, index++) = ParseInt(line[(endFirst + 3)..]);
         }
         
         Array.Sort(leftArr);
@@ -33,30 +31,52 @@ public sealed class Day01Fast : IPuzzle
 
         uint part1 = 0;
         uint part2 = 0;
-        nuint rightIndex = 0;
+        var rightSpan = rightArr.AsSpan(); 
         for (nuint i = 0; i < len; i++)
         {
             var left = Unsafe.Add(ref leftRef, i);
             var right = Unsafe.Add(ref rightRef, i);
             part1 += left > right ? left - right : right - left;
 
-            if (rightIndex >= len) continue;
+            if (rightSpan.IsEmpty) continue;
 
-            rightIndex = (nuint)rightArr.AsSpan((int)rightIndex..).IndexOfAnyExceptInRange(0u, left - 1) + rightIndex;
+            var foundStart = rightSpan.IndexOfAnyExceptInRange(0u, left - 1);
+            if (foundStart == -1)
+            {
+                rightSpan = [];
+                continue;
+            }
 
-            var val = Unsafe.Add(ref rightRef, rightIndex);
-            if (val != left)
+            rightSpan = rightSpan[foundStart..];
+
+            if (MemoryMarshal.GetReference(rightSpan) != left)
                 continue;
             
-            var newRightIndexSigned = rightArr.AsSpan((int)rightIndex..).IndexOfAnyExcept(left);
+            var newRightIndexSigned = rightSpan.IndexOfAnyExcept(left);
 
-            var newRightIndex = newRightIndexSigned == -1 ? len : (nuint)newRightIndexSigned + rightIndex;
-
-            part2 += left * (uint)(newRightIndex - rightIndex);
-
-            rightIndex = newRightIndex;
+            if (newRightIndexSigned == -1)
+            {
+                part2 += left * (uint)rightSpan.Length;
+                rightSpan = [];
+            }
+            else
+            {
+                part2 += left * (uint)newRightIndexSigned;
+                rightSpan = rightSpan[newRightIndexSigned..];
+            }
         }
 
         return (part1.ToString(), part2.ToString());
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static uint ParseInt(ReadOnlySpan<byte> bytes)
+    {
+        uint result = 0;
+        foreach (var c in bytes)
+        {
+            result = result * 10 + c - (byte)'0';
+        }
+        return result;
     }
 }
