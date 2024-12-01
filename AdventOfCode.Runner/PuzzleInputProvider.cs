@@ -13,7 +13,7 @@ public sealed class PuzzleInputProvider
     {
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
             .AddEnvironmentVariables()
             .Build();
         var sessionId = configuration["sessionId"];

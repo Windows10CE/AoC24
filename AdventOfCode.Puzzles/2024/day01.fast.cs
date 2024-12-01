@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Runtime.CompilerServices;
 
 namespace AdventOfCode.Puzzles._2024;
@@ -14,6 +15,8 @@ public sealed class Day01Fast : IPuzzle
         uint[] leftArr = GC.AllocateUninitializedArray<uint>((int)len), rightArr = GC.AllocateUninitializedArray<uint>((int)len);
         ref var leftRef = ref leftArr[0];
         ref var rightRef = ref rightArr[0];
+
+        var invariantInfo = NumberFormatInfo.InvariantInfo;
         
         nuint index = 0;
         foreach (var lineRange in input.Span.Split((byte)'\n'))
@@ -21,8 +24,8 @@ public sealed class Day01Fast : IPuzzle
             var line = span[lineRange];
             if (line.IsEmpty) break;
             var endFirst = line.IndexOf((byte)' ');
-            _ = uint.TryParse(line[..endFirst], out Unsafe.Add(ref leftRef, index));
-            _ = uint.TryParse(line[(endFirst + 3)..], out Unsafe.Add(ref rightRef, index++));
+            _ = uint.TryParse(line[..endFirst], NumberStyles.None, invariantInfo, out Unsafe.Add(ref leftRef, index));
+            _ = uint.TryParse(line[(endFirst + 3)..], NumberStyles.None, invariantInfo, out Unsafe.Add(ref rightRef, index++));
         }
         
         Array.Sort(leftArr);

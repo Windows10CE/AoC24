@@ -5,6 +5,7 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
 using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
+using JetBrains.Profiler.Api;
 
 namespace AdventOfCode.Runner;
 
@@ -82,9 +83,13 @@ public class PuzzleRunner
 
         var rawInput = PuzzleInputProvider.Instance
             .GetRawInput(puzzleInfo.Year, puzzleInfo.Day);
-
+        
         var sw = Stopwatch.StartNew();
+        if (puzzleInfo.CodeType == CodeType.Fastest)
+            MeasureProfiler.StartCollectingData(puzzleInfo.Name);
         var (part1, part2) = puzzle.Solve(rawInput);
+        if (puzzleInfo.CodeType == CodeType.Fastest)
+            MeasureProfiler.StopCollectingData();
         sw.Stop();
         var elapsed = sw.Elapsed;
 

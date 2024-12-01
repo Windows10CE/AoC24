@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <Using Include="AdventOfCode.Common.Attributes"/>
     <Using Include="AdventOfCode.Common.Interfaces"/>
@@ -18,6 +18,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json"/>
     <PackageReference Include="Spectre.Console"/>
+    <PackageReference Include="JetBrains.Profiler.Api" />
   </ItemGroup>
 
   <ItemGroup>
