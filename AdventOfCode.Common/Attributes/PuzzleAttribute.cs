@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+
 namespace AdventOfCode.Common.Attributes;
 
 public enum CodeType
@@ -7,6 +9,7 @@ public enum CodeType
 }
 
 [AttributeUsage(AttributeTargets.Class)]
+[MeansImplicitUse]
 public sealed class PuzzleAttribute(int year, int day, CodeType codeType, string? name = null) : Attribute
 {
     public string? Name { get; } = name;
