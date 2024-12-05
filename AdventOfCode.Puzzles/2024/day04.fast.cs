@@ -6,14 +6,13 @@ public sealed class Day04Fast : IPuzzle
     private static bool CheckEqualsWithStride(string[] arr, string toCheck, int x, int y, int strideX, int strideY)
     {
         var len = arr.Length;
-        for (int i = 0; i < toCheck.Length; i++)
+        foreach (var c in toCheck)
         {
             if (x < 0 || x >= len || y < 0 || y >= len)
             {
                 return false;
             }
-
-            if (toCheck[i] != arr[x][y])
+            if (c != arr[x][y])
             {
                 return false;
             }
