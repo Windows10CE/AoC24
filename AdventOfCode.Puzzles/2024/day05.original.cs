@@ -31,7 +31,7 @@ public sealed class Day05Original : IPuzzle
         
         var part1 = updates.Where(u => CheckUpdate(rules, u)).Sum(u => u[u.Length / 2]).ToString();
 
-        var badUpdates = updates.Where(u => !CheckUpdate(rules, u)).ToArray();
+        var badUpdates = updates.Where(u => !CheckUpdate(rules, u));
 
         var sum = 0;
 
